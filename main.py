@@ -1,40 +1,30 @@
-import pygame
-import os, sys
-import time  
 import random
+import ursina
 
-pygame.init()
-
-SIZE = (WIDTH, HEIGHT) = (600, 600)
-
-# config the size and the title
-pygame.display.set_caption("Snake")
-screen = pygame.display.set_mode(SIZE)
-
-
-colors = ['Red']
-
-
-# create fruits the ywil be generated randomly
-fruit = pygame.Surface((10, 10))
-fruit.fill('Red')
-
-screen.blit(fruit, (random.randint(1, 599), random.randint(1, 599)))
-
-# create the Snake
-snake = pygame.Surface((20, 20))
-snake.fill('Green')
-
-screen.blit(snake, (200, 100))
-
-while 1:
+def input(key):
+    global snake, random_pos
     
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-            
+    
+    if key == 'd':
+        snake.x += 1 * random_pos
+    if key == 'q':
+        snake.x -= 1 * random_pos
+    if key == 's':
+        snake.y -= 1 * random_pos
+        
+def update():
+    global snake
 
-   #update every time
-    pygame.display.update()
+    while input is False:
+        snake.x += 0.25
 
+app = ursina.Ursina()
+
+snake = ursina.Entity(model="quad", scale=0.5, collider='box', color = ursina.color.white, position=(0,0))
+
+random_pos = random.randint(0, 3)
+
+fruit = ursina.Entity(model="quad", collider="box",color=ursina.color.green, position=(random_pos, random_pos), scale=0.25)
+
+if __name__ == "__main__":
+    app.run()
